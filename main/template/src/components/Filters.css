@@ -1,0 +1,33 @@
+.fa-seedling {
+    color: #54B747 !important;
+    font-size: 1.38em;
+}
+
+.fa-sun {
+    color: #FFD83B !important;
+    font-size: 1.38rem;
+}
+
+.fa-canadian-maple-leaf {
+    color: #BF6F4D !important;
+    font-size: 1.38rem;
+}
+
+.fa-snowflake {
+    color: #3299FF !important;
+    font-size: 1.38rem;
+}
+
+
+#sb {
+    display: block;
+    background-color: #3167eb;
+    margin: 0 auto;
+}
+
+
+#resetbtn {
+    display: block;
+    background-color: #3167eb;
+    margin: 0 auto;
+}
