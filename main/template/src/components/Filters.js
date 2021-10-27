@@ -44,7 +44,9 @@ class FilterForm extends React.Component {
         this.state = {
             occasion: '',
             season: '',
-            topColor: ''
+            topColor: '',
+            isSubmitted: false,
+            resultsDisplayed: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -53,23 +55,33 @@ class FilterForm extends React.Component {
 
     // Form submit logic, prevents default page refresh
     handleSubmit(event) {
-        const { occasion, season, topColor } = this.state
+        this.setState({
+            // [event.target.name]: event.target.value,
+            isSubmitted: true,
+            resultsDisplayed: true
+        })
+        const { occasion, season, topColor, isSubmitted, resultsDisplayed } = this.state
         event.preventDefault();
-        alert(`
-        ____Your Details____\n
-        Occasion : ${occasion}
-        Season: ${season}
-        Top Color: ${topColor}
-        `)
+
+
+        // alert(`
+        // ____Your Details____\n
+        // Occasion : ${occasion}
+        // Season: ${season}
+        // Top Color: ${topColor}
+        // `)
     }
 
     // Store all values of input fields in react state
     // Single method handles all input changes of hte input field using ES6
     handleChange(event) {
+        event.stopPropagation();
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
-    }
+
+    };
+
 
     handleColorChange = (colorData) => {
         let wordColor = ''
@@ -127,7 +139,9 @@ class FilterForm extends React.Component {
         this.setState({
             occasion: '',
             season: '',
-            topColor: ''
+            topColor: '',
+            isSubmitted: false,
+            resultsDisplayed: false
         })
 
     }
@@ -135,6 +149,17 @@ class FilterForm extends React.Component {
     // const [selectedColor, setSelectedColor] = useState()
 
     render() {
+        const isSubmitted = this.state.isSubmitted;
+        let grid;
+
+        if (isSubmitted) {
+            grid = < Results
+                occasion={this.state.occasion}
+                season={this.state.season}
+                topColor={this.state.topColor}
+                resultsDisplayed={this.state.resultsDisplayed} />
+
+        };
 
         return (
 
@@ -300,8 +325,7 @@ class FilterForm extends React.Component {
                                 </div>
 
                             </aside>
-
-                            <Results />
+                            {grid}
                         </div>
                     </div>
                 </section>
@@ -340,4 +364,4 @@ function Filters() {
 
 
 
-export default Filters
+export default React.memo(Filters)

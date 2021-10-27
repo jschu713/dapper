@@ -4,71 +4,68 @@ import { Link } from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import Button from '@mui/material/Button';
 
+// Images are 278 x 420 per card
+// {this.props.season}
 
-function Results() {
-    return (
-        <>
 
-            <main class="col-md-9">
+// function Results() {
+class Results extends React.Component {
 
-                <div class="row">
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <span class="badge badge-danger"> NEW </span>
-                                <img src="assets/images/items/1.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Great item name goes here</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                        <del class="price-old">$1980</del>
-                                    </div>
+
+    render() {
+
+        const occasion = this.props.occasion;
+        const season = this.props.season;
+        const topColor = this.props.topColor;
+        let resultsDisplayed = this.props.resultsDisplayed;
+
+        let image1;
+        let image2;
+        let image3;
+
+        if (occasion == 'formal' && season == 'fall' && topColor == 'red') {
+            image1 = '../../testImages\\Red\\Resized\\redblue.jpg'
+            image2 = '../../testImages\\Red\\Resized\\redkhaki.jpg'
+            image3 = '../../testImages\\Red\\Resized\\redred.jpg'
+        }
+
+        else if (occasion == 'casual' && season == 'spring' && topColor == 'blue') {
+            image1 = '../../testImages\\Blue\\Resized\\lightbluedenim.jpg'
+            image2 = '../../testImages\\Blue\\Resized\\blueblack.jpg'
+            image3 = '../../testImages\\Blue\\Resized\\navywhite.jpg'
+        }
+
+        return (
+            <>
+                <main class="col-md-9">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <figure class="card card-product-grid">
+                                <div class="img-wrap">
+                                    <img src={image1} />
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
 
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/2.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
+                            </figure>
+                        </div>
+
+                        <div class="col-md-4">
+                            <figure class="card card-product-grid">
+                                <div class="img-wrap">
+                                    <img src={image2} />
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
+                            </figure>
+                        </div>
 
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/3.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
+                        <div class="col-md-4">
+                            <figure class="card card-product-grid">
+                                <div class="img-wrap">
+                                    <img src={image3} />
                                 </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
+                            </figure>
+                        </div>
 
-                    <div class="col-md-4">
+                        {/* <div class="col-md-4">
                         <figure class="card card-product-grid">
                             <div class="img-wrap">
                                 <img src="assets/images/items/4.jpg" />
@@ -155,11 +152,11 @@ function Results() {
                                 <a href="#" class="btn btn-block btn-primary">Add to cart </a>
                             </figcaption>
                         </figure>
+                    </div> */}
                     </div>
-                </div>
 
 
-                <nav class="mt-4" aria-label="Page navigation sample">
+                    {/* <nav class="mt-4" aria-label="Page navigation sample">
                     <ul class="pagination">
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -167,15 +164,16 @@ function Results() {
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
-                </nav>
+                </nav> */}
 
-            </main>
-            {/* </div> */}
+                </main>
+                {/* </div> */}
 
-            {/* </div>  */}
-            {/* </section> */}
-        </>
-    )
+                {/* </div>  */}
+                {/* </section> */}
+            </>
+        )
+    }
 }
 
-export default Results
+export default React.memo(Results)
