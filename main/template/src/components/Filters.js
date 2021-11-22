@@ -46,7 +46,8 @@ class FilterForm extends React.Component {
             season: '',
             topColor: '',
             isSubmitted: false,
-            resultsDisplayed: false
+            resultsDisplayed: false,
+            urls: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -55,21 +56,37 @@ class FilterForm extends React.Component {
 
     // Form submit logic, prevents default page refresh
     handleSubmit(event) {
-        this.setState({
-            // [event.target.name]: event.target.value,
-            isSubmitted: true,
-            resultsDisplayed: true
+        fetch("http://127.0.0.1:5000/get_images", {
+            method: "POST",
+            cache: "no-cache",
+            headers: {
+                "Content_type": "application/json",
+            },
+            body: JSON.stringify(this.state)
+        }
+        ).then(response => {
+
+            var test = response.json()
         })
+
+        this.setState({
+            [event.target.name]: event.target.value,
+            isSubmitted: true,
+            resultsDisplayed: true,
+            urls: test
+        })
+
         const { occasion, season, topColor, isSubmitted, resultsDisplayed } = this.state
+
         event.preventDefault();
 
 
-        // alert(`
-        // ____Your Details____\n
-        // Occasion : ${occasion}
-        // Season: ${season}
-        // Top Color: ${topColor}
-        // `)
+        alert(`
+        ____Your Details____\n
+        Occasion : ${occasion}
+        Season: ${season}
+        Top Color: ${topColor}
+        `)
     }
 
     // Store all values of input fields in react state
@@ -157,7 +174,8 @@ class FilterForm extends React.Component {
                 occasion={this.state.occasion}
                 season={this.state.season}
                 topColor={this.state.topColor}
-                resultsDisplayed={this.state.resultsDisplayed} />
+                resultsDisplayed={this.state.resultsDisplayed}
+                urls={this.state.urls} />
 
         };
 
@@ -188,7 +206,6 @@ class FilterForm extends React.Component {
                                                             checked={this.state.occasion === 'formal'}
                                                             onChange={this.handleChange} />
                                                         <div class="custom-control-label">Formal
-                                                            {/* <b class="badge badge-pill badge-light float-right">120</b>   */}
                                                         </div>
                                                     </label>
                                                     <label class="custom-control custom-checkbox">
@@ -197,7 +214,6 @@ class FilterForm extends React.Component {
                                                             checked={this.state.occasion === 'business casual'}
                                                             onChange={this.handleChange} />
                                                         <div class="custom-control-label">Business Casual
-                                                            {/* <b class="badge badge-pill badge-light float-right">15</b>   */}
                                                         </div>
                                                     </label>
                                                     <label class="custom-control custom-checkbox">
@@ -206,7 +222,6 @@ class FilterForm extends React.Component {
                                                             checked={this.state.occasion === 'casual'}
                                                             onChange={this.handleChange} />
                                                         <div class="custom-control-label">Casual
-                                                            {/* <b class="badge badge-pill badge-light float-right">35</b>  */}
                                                         </div>
                                                     </label>
                                                 </div>
@@ -306,12 +321,7 @@ class FilterForm extends React.Component {
 
                                     {/* Submit and Reset Buttons */}
                                     <article class="filter-group">
-                                        {/* <header class="card-header"> */}
-                                        {/* <a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" class="">
-                                            <i class="icon-control fa fa-chevron-down"></i>
-                                            <h6 class="title">More filter </h6>
-                                        </a> */}
-                                        {/* </header> */}
+
                                         <div class="filter-content collapse show" id="collapse_5">
                                             <div id="submitter" class="card-body">
 

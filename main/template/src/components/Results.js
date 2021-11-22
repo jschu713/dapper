@@ -14,6 +14,9 @@ class Results extends React.Component {
 
     render() {
 
+        const results = this.props.test;
+        console.log(results)
+
         const occasion = this.props.occasion;
         const season = this.props.season;
         const topColor = this.props.topColor;
