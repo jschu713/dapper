@@ -38,15 +38,19 @@ def get_images():
     data = request.json
 
     top_type = " shirt"
+    btm_type = " pants"
     occassion = data['occasion']
     season = data['season']
     top_color = data['topColor']
+    btm_color = data['btmColor']
 
     if occassion == "formal":
         top_type = " suit"
+    if occassion == "casual" and season != "winter" and season != "fall":
+        btm_type = " shorts"
     
     keywords = {
-        "image_parameters": ["men", "style", occassion, season, top_color + top_type], "num_images": "3"
+        "image_parameters": ["men", "mens", "male", "style", occassion, season, top_color + top_type, btm_color + btm_type], "num_images": "6"
     }
 
     google_image_client = ImageRequests()
@@ -57,6 +61,7 @@ def get_images():
 
 
     img_msgs = img_to_resize(images_json['images'])
+    print([url for url in img_msgs])
     
     return jsonify(img_urls=[url for url in img_msgs])
 
