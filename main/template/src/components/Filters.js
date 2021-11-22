@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './Filters.css';
 import Results from './Results';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -45,6 +44,7 @@ class FilterForm extends React.Component {
             occasion: '',
             season: '',
             topColor: '',
+            btmColor: '',
             isSubmitted: false,
             resultsDisplayed: false,
             urls: ''
@@ -64,19 +64,26 @@ class FilterForm extends React.Component {
             },
             body: JSON.stringify(this.state)
         }
-        ).then(response => {
+        ).then(response => response.json()).then(data => {
 
-            var test = response.json()
+            let imgs = []
+
+            for (let i = 0; i < 6; i++) {
+                imgs.push(data['img_urls'][i]['image_url'])
+            }
+
+            this.setState({
+                urls: imgs
+            })
         })
 
         this.setState({
             [event.target.name]: event.target.value,
             isSubmitted: true,
             resultsDisplayed: true,
-            urls: test
         })
 
-        const { occasion, season, topColor, isSubmitted, resultsDisplayed } = this.state
+        const { occasion, season, topColor, btmColor, isSubmitted, resultsDisplayed, urls } = this.state
 
         event.preventDefault();
 
@@ -86,6 +93,7 @@ class FilterForm extends React.Component {
         Occasion : ${occasion}
         Season: ${season}
         Top Color: ${topColor}
+        Bottom Color: ${btmColor}
         `)
     }
 
@@ -100,7 +108,7 @@ class FilterForm extends React.Component {
     };
 
 
-    handleColorChange = (colorData) => {
+    handleTopColorChange = (colorData) => {
         let wordColor = ''
 
         // colors={["#A80000", "#FB6400", "#FFC400", "#62BA27", "#3342C4", "#9362C4",
@@ -152,13 +160,67 @@ class FilterForm extends React.Component {
         })
     }
 
+    handleBtmColorChange = (colorData) => {
+        let wordColor = ''
+
+        // colors={["#A80000", "#FB6400", "#FFC400", "#62BA27", "#3342C4", "#9362C4",
+        //             "#F4F0DB", "#FEE9CE", "#CFCFC5", "#C8AF84", "#565656", "#000000"]}
+
+        if (colorData == "#a80000") {
+            wordColor = "red"
+        }
+        if (colorData == "#fb6400") {
+            wordColor = "orange"
+        }
+        if (colorData == "#ffc400") {
+            wordColor = "yellow"
+        }
+        if (colorData == "#62ba27") {
+            wordColor = "green"
+        }
+
+        if (colorData == "#3342c4") {
+            wordColor = "blue"
+        }
+        if (colorData == "#9362c4") {
+            wordColor = "purple"
+        }
+
+        if (colorData == "#f4f0db") {
+            wordColor = "white"
+        }
+        if (colorData == "#fee9ce") {
+            wordColor = "beige"
+        }
+        if (colorData == "#cfcfc5") {
+            wordColor = "gray"
+        }
+        if (colorData == "#c8af84") {
+            wordColor = "khaki"
+        }
+
+        if (colorData == "#565656") {
+            wordColor = "charcoal"
+        }
+        if (colorData == "#000000") {
+            wordColor = "black"
+        }
+
+
+        this.setState({
+            btmColor: wordColor
+        })
+    }
+
     resetForm = (event) => {
         this.setState({
             occasion: '',
             season: '',
             topColor: '',
+            btmColor: '',
             isSubmitted: false,
-            resultsDisplayed: false
+            resultsDisplayed: false,
+            urls: ''
         })
 
     }
@@ -174,6 +236,7 @@ class FilterForm extends React.Component {
                 occasion={this.state.occasion}
                 season={this.state.season}
                 topColor={this.state.topColor}
+                btmColor={this.state.btmColor}
                 resultsDisplayed={this.state.resultsDisplayed}
                 urls={this.state.urls} />
 
@@ -314,7 +377,24 @@ class FilterForm extends React.Component {
                                             <div class="card-body">
                                                 <Circles
                                                     name='topColor'
-                                                    parentCallback={this.handleColorChange} />
+                                                    parentCallback={this.handleTopColorChange} />
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                    {/* Bottom Color */}
+                                    <article class="filter-group">
+                                        <header class="card-header">
+                                            <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                                                <i class="icon-control fa fa-chevron-down"></i>
+                                                <h6 class="title">Bottom Color</h6>
+                                            </a>
+                                        </header>
+                                        <div class="filter-content collapse show" id="collapse_3">
+                                            <div class="card-body">
+                                                <Circles
+                                                    name='btmColor'
+                                                    parentCallback={this.handleBtmColorChange} />
                                             </div>
                                         </div>
                                     </article>

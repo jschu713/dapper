@@ -1,179 +1,111 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-// import './Filters.css';
-import Tooltip from '@material-ui/core/Tooltip';
-import Button from '@mui/material/Button';
+
 
 // Images are 278 x 420 per card
 // {this.props.season}
 
 
-// function Results() {
 class Results extends React.Component {
 
-
     render() {
+        const results = this.props.urls;
 
-        const results = this.props.test;
-        console.log(results)
-
-        const occasion = this.props.occasion;
-        const season = this.props.season;
-        const topColor = this.props.topColor;
-        let resultsDisplayed = this.props.resultsDisplayed;
-
-        let image1;
-        let image2;
-        let image3;
-
-        if (occasion == 'formal' && season == 'fall' && topColor == 'red') {
-            image1 = '../../testImages\\Red\\Resized\\redblue.jpg'
-            image2 = '../../testImages\\Red\\Resized\\redkhaki.jpg'
-            image3 = '../../testImages\\Red\\Resized\\redred.jpg'
+        const Card = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[0]} />
+                        </div>
+                    </figure>
+                </div>
+            )
+        }
+        const Card2 = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[1]} />
+                        </div>
+                    </figure>
+                </div>
+            )
         }
 
-        else if (occasion == 'casual' && season == 'spring' && topColor == 'blue') {
-            image1 = '../../testImages\\Blue\\Resized\\lightbluedenim.jpg'
-            image2 = '../../testImages\\Blue\\Resized\\blueblack.jpg'
-            image3 = '../../testImages\\Blue\\Resized\\navywhite.jpg'
+        const Card3 = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[2]} />
+                        </div>
+                    </figure>
+                </div>
+            )
+        }
+
+        const Card4 = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[3]} />
+                        </div>
+                    </figure>
+                </div>
+            )
+        }
+        const Card5 = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[4]} />
+                        </div>
+                    </figure>
+                </div>
+            )
+        }
+
+        const Card6 = () => {
+            return (
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img src={results[5]} />
+                        </div>
+                    </figure>
+                </div>
+            )
+        }
+
+        const Row = () => {
+            return (
+                <div class="row">
+                    <Card> </Card>
+                    <Card2> </Card2>
+                    <Card3> </Card3>
+                </div>
+            )
+        }
+
+        const Row2 = () => {
+            return (
+                <div class="row">
+                    <Card4> </Card4>
+                    <Card5> </Card5>
+                    <Card6> </Card6>
+                </div>
+            )
         }
 
         return (
             <>
                 <main class="col-md-9">
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <figure class="card card-product-grid">
-                                <div class="img-wrap">
-                                    <img src={image1} />
-                                </div>
-
-                            </figure>
-                        </div>
-
-                        <div class="col-md-4">
-                            <figure class="card card-product-grid">
-                                <div class="img-wrap">
-                                    <img src={image2} />
-                                </div>
-                            </figure>
-                        </div>
-
-                        <div class="col-md-4">
-                            <figure class="card card-product-grid">
-                                <div class="img-wrap">
-                                    <img src={image3} />
-                                </div>
-                            </figure>
-                        </div>
-
-                        {/* <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/4.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/5.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/6.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
-
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/7.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="col-md-4">
-                        <figure class="card card-product-grid">
-                            <div class="img-wrap">
-                                <img src="assets/images/items/1.jpg" />
-                                <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                            </div>
-                            <figcaption class="info-wrap">
-                                <div class="fix-height">
-                                    <a href="#" class="title">Product name goes here just for demo item</a>
-                                    <div class="price-wrap mt-2">
-                                        <span class="price">$1280</span>
-                                    </div>
-                                </div>
-                                <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                            </figcaption>
-                        </figure>
-                    </div> */}
-                    </div>
-
-
-                    {/* <nav class="mt-4" aria-label="Page navigation sample">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </nav> */}
-
+                    <Row></Row>
+                    <Row2></Row2>
                 </main>
-                {/* </div> */}
-
-                {/* </div>  */}
-                {/* </section> */}
             </>
         )
     }

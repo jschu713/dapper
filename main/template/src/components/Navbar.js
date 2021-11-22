@@ -22,7 +22,9 @@ function Navbar() {
                     <ul className={click ? 'nav-tip active' : 'nav-tip'} >
                         <li className='nav-item'>
                             <Tooltip
-                                title={<h2> Here would be tips on how to use the site to filter your fashion choices.</h2>}
+                                title={<h2> Find your next great look here at dapper. Select the occassion, season, top, and bottom clothing color on the left filter pane. Then hit submit
+                                    to get some fashion inspiration. The reset button is also there in case you change your mind and want new choices.
+                                </h2>}
                                 placement='bottom' className='tooltip'>
                                 <Link to='/' className='nav-links'>
                                     <i className='fas fa-question' />
