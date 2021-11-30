@@ -23,7 +23,9 @@ def img_to_resize(urls):
     for img in urls:
         message["image_url"] = img
         result = resize_images(resize_client, message)
-        all_messages.append(result)
+        
+        if result["success"] is True:
+            all_messages.append(result)
 
     resize_client.channel.close()
     resize_client.connection.close()
@@ -40,19 +42,21 @@ def resize_images(client, msg):
 def get_images():
     data = request.json
 
-    top_type = " shirt"
+    top_type = {"spring": " shirt", "summer": " t-shirt", "fall": " shirt", "winter": " coat", "formal": " suit"}
+
+    # top_type = " shirt"
     occassion = data['occasion']
     season = data['season']
     top_color = data['topColor']
 
-    if occassion == "formal":
-        top_type = " suit"
 
-    if not top_color:
-        top_type = ""
+    if occassion != "formal":
+        tops = "'" + top_color + top_type[season] + "'"
+    else:
+        tops = "'" + top_color + top_type[occassion] + "'"
     
     keywords = {
-        "image_parameters": ["men", "mens", "male", "style", occassion, season, top_color + top_type], "num_images": "6"
+        "image_parameters": ["men", "mens", "male", "style", occassion, season, tops], "num_images": "7"
     }
 
     google_image_client = ImageRequests('google_images_Jeff')
@@ -63,6 +67,9 @@ def get_images():
 
     img_msgs = img_to_resize(images_json['images'])
     print([url for url in img_msgs])
+
+    google_image_client.channel.close()
+    google_image_client.connection.close() 
     
     return jsonify(img_urls=[url for url in img_msgs])
 

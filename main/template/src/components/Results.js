@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
+import { usePromiseTracker } from "react-promise-tracker";
+import Loader from "./Loader";
+
 
 // Images are 278 x 420 per card
 
 class Results extends React.Component {
 
     render() {
+        let loading;
+        const color = this.props.topColor;
+
+        if (!this.props.isLoaded) {
+            loading = <Loader
+                promiseTracker={usePromiseTracker}
+                color={color}
+            />
+        }
+
         const results = this.props.urls;
 
         const Card = () => {
@@ -100,6 +113,7 @@ class Results extends React.Component {
         return (
             <>
                 <main class="col-md-9">
+                    {loading}
                     <Row></Row>
                     <Row2></Row2>
                 </main>

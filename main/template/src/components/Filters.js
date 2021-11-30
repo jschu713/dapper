@@ -4,6 +4,8 @@ import Results from './Results';
 import Tooltip from '@material-ui/core/Tooltip';
 import { CirclePicker } from 'react-color';
 import Button from '@mui/material/Button';
+import { trackPromise } from "react-promise-tracker";
+
 
 class Circles extends React.Component {
     constructor(props) {
@@ -57,32 +59,10 @@ class FilterForm extends React.Component {
     // Form submit logic, prevents default page refresh
     handleSubmit(event) {
         event.preventDefault();
-        fetch("http://127.0.0.1:5000/get_images", {
-            method: "POST",
-            cache: "no-cache",
-            headers: {
-                "Content_type": "application/json",
-            },
-            body: JSON.stringify(this.state)
-        }
-        ).then(response => response.json()).then(data => {
-
-            let imgs = []
-
-            for (let i = 0; i < 6; i++) {
-                imgs.push(data['img_urls'][i]['image_url'])
-            }
-
-            this.setState({
-                isLoaded: true,
-                urls: imgs
-            })
-        })
-
         this.setState({
             [event.target.name]: event.target.value,
             isSubmitted: true,
-            resultsDisplayed: true,
+            isLoaded: false
         })
 
         const { occasion, season, topColor } = this.state
@@ -93,6 +73,30 @@ class FilterForm extends React.Component {
         Season: ${season}
         Top Color: ${topColor}
         `)
+
+        trackPromise(
+            fetch("http://127.0.0.1:5000/get_images", {
+                method: "POST",
+                cache: "no-cache",
+                headers: {
+                    "Content_type": "application/json",
+                },
+                body: JSON.stringify(this.state)
+            }
+            ).then(response => response.json()).then(data => {
+
+                let imgs = []
+
+                for (let i = 0; i < 6; i++) {
+                    imgs.push(data['img_urls'][i]['image_url'])
+                }
+
+                this.setState({
+                    isLoaded: true,
+                    urls: imgs
+                })
+            }))
+
     }
 
     // Store all values of input fields in react state
@@ -170,19 +174,14 @@ class FilterForm extends React.Component {
 
     }
 
-    // const [selectedColor, setSelectedColor] = useState()
-
     render() {
         const isSubmitted = this.state.isSubmitted;
-        const isLoaded = this.state.isLoaded;
         let grid;
 
-        if (isSubmitted && isLoaded) {
+        if (isSubmitted) {
             grid = < Results
-                occasion={this.state.occasion}
-                season={this.state.season}
                 topColor={this.state.topColor}
-                resultsDisplayed={this.state.resultsDisplayed}
+                isLoaded={this.state.isLoaded}
                 urls={this.state.urls} />
 
         };
@@ -341,7 +340,6 @@ class FilterForm extends React.Component {
                                         </div>
                                     </article>
                                 </div>
-
                             </aside>
                             {grid}
                         </div>

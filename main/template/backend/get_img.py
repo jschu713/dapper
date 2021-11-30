@@ -46,8 +46,8 @@ class ImageRequests(object):
         while self.response is None:
             self.connection.process_data_events()
 
-        self.channel.close()
-        self.connection.close() 
+        # self.channel.close()
+        # self.connection.close() 
 
         return self.response
 
