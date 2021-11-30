@@ -17,13 +17,16 @@ def img_to_resize(urls):
         "width": 278,
         "scale_option": "fill"
     }
-
-    resize_client = ResizeClient()
+    
+    resize_client = ResizeClient('resize-jeff')
 
     for img in urls:
         message["image_url"] = img
         result = resize_images(resize_client, message)
         all_messages.append(result)
+
+    resize_client.channel.close()
+    resize_client.connection.close()
     return all_messages
     
 def resize_images(client, msg):
@@ -38,27 +41,25 @@ def get_images():
     data = request.json
 
     top_type = " shirt"
-    btm_type = " pants"
     occassion = data['occasion']
     season = data['season']
     top_color = data['topColor']
-    btm_color = data['btmColor']
 
     if occassion == "formal":
         top_type = " suit"
-    if occassion == "casual" and season != "winter" and season != "fall":
-        btm_type = " shorts"
+
+    if not top_color:
+        top_type = ""
     
     keywords = {
-        "image_parameters": ["men", "mens", "male", "style", occassion, season, top_color + top_type, btm_color + btm_type], "num_images": "6"
+        "image_parameters": ["men", "mens", "male", "style", occassion, season, top_color + top_type], "num_images": "6"
     }
 
-    google_image_client = ImageRequests()
+    google_image_client = ImageRequests('google_images_Jeff')
 
     response = google_image_client.call(json.dumps(keywords))
     print("Printing response sent to client from server:")
     images_json = json.loads(response)
-
 
     img_msgs = img_to_resize(images_json['images'])
     print([url for url in img_msgs])
@@ -69,4 +70,4 @@ def get_images():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True, threaded=True)

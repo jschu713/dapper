@@ -5,18 +5,19 @@ load_dotenv()
 
 class ImageRequests(object):
 
-    def __init__(self):
+    def __init__(self, callback):
 
         # Configure connection
         self.url = os.environ.get('CLOUDAMQP_URL')
         self.parameters = pika.URLParameters(self.url)
         self.connection = pika.BlockingConnection(self.parameters)
+        self.custom_queue = callback
 
         self.channel = self.connection.channel()
 
         # Results queue can be any value at the user's discretion. This is where the client should
         # listen for image responses, and where the image server will publish responses.
-        result = self.channel.queue_declare(queue='google_images_Jeff', exclusive=False)
+        result = self.channel.queue_declare(queue=self.custom_queue, exclusive=False, auto_delete=True)
         self.callback_queue = result.method.queue
 
         # Start listening to the callback queue
@@ -30,6 +31,7 @@ class ImageRequests(object):
             self.response = body
 
     def call(self, n):
+        
         self.response = None
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(
@@ -38,10 +40,15 @@ class ImageRequests(object):
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=self.corr_id,
+                delivery_mode=2,
             ),
             body=n)
         while self.response is None:
             self.connection.process_data_events()
+
+        self.channel.close()
+        self.connection.close() 
+
         return self.response
 
 
