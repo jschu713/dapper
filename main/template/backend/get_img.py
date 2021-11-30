@@ -46,21 +46,5 @@ class ImageRequests(object):
         while self.response is None:
             self.connection.process_data_events()
 
-        # self.channel.close()
-        # self.connection.close() 
-
         return self.response
 
-
-# google_image_client = ImageRequests()
-
-# Send a test message
-# message = {'image_parameters': ["mars rover", "xkcd"], "num_images": '3'}
-
-# message = {
-#     'image_parameters': ["men", "green", "shirt", "style"], "num_images": '3'
-# }
-#
-# response = google_image_client.call(json.dumps(message))
-# print("Printing response sent to client from server:")
-# print(json.loads(response))

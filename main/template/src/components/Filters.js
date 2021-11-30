@@ -32,9 +32,8 @@ class Circles extends React.Component {
         return (
             <CirclePicker
                 colors={["#A80000", "#FB6400", "#FFC400", "#62BA27", "#3342C4", "#9362C4",
-                    "#F4F0DB", "#FEE9CE", "#CFCFC5", "#C8AF84", "#565656", "#000000"]}
+                    "#F4F0DB", "#fbe6e8", "#CFCFC5", "#C8AF84", "#565656", "#000000"]}
                 onChangeComplete={this.handleChangeComplete} />
-            // onChangeComplete={color => setSelectedColor(color.hex)} />
         )
     }
 }
@@ -110,50 +109,22 @@ class FilterForm extends React.Component {
     };
 
     handleTopColorChange = (colorData) => {
-        let wordColor = ''
-
-        // colors={["#A80000", "#FB6400", "#FFC400", "#62BA27", "#3342C4", "#9362C4",
-        //             "#F4F0DB", "#FEE9CE", "#CFCFC5", "#C8AF84", "#565656", "#000000"]}
-
-        if (colorData == "#a80000") {
-            wordColor = "red"
-        }
-        if (colorData == "#fb6400") {
-            wordColor = "orange"
-        }
-        if (colorData == "#ffc400") {
-            wordColor = "yellow"
-        }
-        if (colorData == "#62ba27") {
-            wordColor = "green"
+        let colorDict = {
+            "#a80000": "red",
+            "#fb6400": "orange",
+            "#ffc400": "yellow",
+            "#62ba27": "green",
+            "#3342c4": "blue",
+            "#9362c4": "purple",
+            "#f4f0db": "white",
+            "#fbe6e8": "pink",
+            "#cfcfc5": "gray",
+            "#c8af84": "khaki",
+            "#565656": "charcoal",
+            "#000000": "black"
         }
 
-        if (colorData == "#3342c4") {
-            wordColor = "blue"
-        }
-        if (colorData == "#9362c4") {
-            wordColor = "purple"
-        }
-
-        if (colorData == "#f4f0db") {
-            wordColor = "white"
-        }
-        if (colorData == "#fee9ce") {
-            wordColor = "beige"
-        }
-        if (colorData == "#cfcfc5") {
-            wordColor = "gray"
-        }
-        if (colorData == "#c8af84") {
-            wordColor = "khaki"
-        }
-
-        if (colorData == "#565656") {
-            wordColor = "charcoal"
-        }
-        if (colorData == "#000000") {
-            wordColor = "black"
-        }
+        let wordColor = colorDict[colorData]
 
 
         this.setState({

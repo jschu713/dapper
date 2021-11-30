@@ -27,6 +27,9 @@ def img_to_resize(urls):
         if result["success"] is True:
             all_messages.append(result)
 
+        if len(all_messages) == 6:
+            break
+
     resize_client.channel.close()
     resize_client.connection.close()
     return all_messages
@@ -42,7 +45,7 @@ def resize_images(client, msg):
 def get_images():
     data = request.json
 
-    top_type = {"spring": " shirt", "summer": " t-shirt", "fall": " shirt", "winter": " coat", "formal": " suit"}
+    top_type = {"spring": " shirt", "summer": " t-shirt", "fall": " shirt", "winter": " coat", "formal": " suit", "business casual": " dress shirt"}
 
     # top_type = " shirt"
     occassion = data['occasion']
@@ -50,7 +53,7 @@ def get_images():
     top_color = data['topColor']
 
 
-    if occassion != "formal":
+    if occassion != "formal" and occassion != "business casual":
         tops = "'" + top_color + top_type[season] + "'"
     else:
         tops = "'" + top_color + top_type[occassion] + "'"

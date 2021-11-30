@@ -4,7 +4,6 @@
 import pika, os, ssl, json, uuid
 from dotenv import load_dotenv
 
-
 # Load environmental variables
 load_dotenv()
 
@@ -50,39 +49,3 @@ class ResizeClient(object):
             self.connection.process_data_events()
 
         return self.response
-
-
-# resize_client = ResizeClient()
-
-# SAMPLE PUBLISHING MESSAGE
-# message = {
-#   'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Savannah_Cat_portrait.jpg/800px-Savannah_Cat_portrait.jpg',
-#   'height': 500,
-#   'width': 500,
-#   'scale_option': 'fill'
-# }
-
-# message2 = {
-#   "image_url": "https://i.pinimg.com/originals/c4/c6/bc/c4c6bc9528e0fc7fa846eb31ebe41447.jpg",
-#   "height": 420,
-#   "width": 278,
-#   "scale_option": "fill"
-# }
-
-# test = [message, message2]
-
-# for t in test:
-#     print(" [x] Sending message to consumer")
-#     response = resize_client.call(json.dumps(t))
-#     print("Printing response sent to publisher from consumer:")
-#     print(json.loads(response))
-
-# print(" [x] Sending message to consumer")
-# response = resize_client.call(json.dumps(message))
-# print("Printing response sent to publisher from consumer:")
-# print(json.loads(response))
-
-# print(" [x] Sending message to consumer")
-# response = resize_client.call(json.dumps(message2))
-# print("Printing response sent to publisher from consumer:")
-# print(json.loads(response))
