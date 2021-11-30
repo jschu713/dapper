@@ -46,6 +46,7 @@ class FilterForm extends React.Component {
             topColor: '',
             isSubmitted: false,
             resultsDisplayed: false,
+            isLoaded: false,
             urls: ''
         };
 
@@ -73,6 +74,7 @@ class FilterForm extends React.Component {
             }
 
             this.setState({
+                isLoaded: true,
                 urls: imgs
             })
         })
@@ -162,6 +164,7 @@ class FilterForm extends React.Component {
             topColor: '',
             isSubmitted: false,
             resultsDisplayed: false,
+            isLoaded: false,
             urls: ''
         })
 
@@ -171,9 +174,10 @@ class FilterForm extends React.Component {
 
     render() {
         const isSubmitted = this.state.isSubmitted;
+        const isLoaded = this.state.isLoaded;
         let grid;
 
-        if (isSubmitted) {
+        if (isSubmitted && isLoaded) {
             grid = < Results
                 occasion={this.state.occasion}
                 season={this.state.season}

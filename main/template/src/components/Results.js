@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 
-
 // Images are 278 x 420 per card
-// {this.props.season}
-
 
 class Results extends React.Component {
 
