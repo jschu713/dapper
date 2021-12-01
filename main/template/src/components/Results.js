@@ -18,107 +18,30 @@ class Results extends React.Component {
             />
         }
 
-        const results = this.props.urls;
-
         // Creates results display cards
         // Images are 278 x 420 per card
-        const ResultsCard = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[0]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-        const ResultsCard2 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[1]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
+        let results = this.props.urls;
+        let resultsList = []
 
-        const ResultsCard3 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[2]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
+        // loops through urls to create each card
+        Array.from(results).forEach((item, index) => {
+            resultsList.push(<div class="col-md-4">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap">
+                        <img key={index} src={item} />
+                    </div>
+                </figure>
+            </div>)
 
-        const ResultsCard4 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[3]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-        const ResultsCard5 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[4]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-
-        const ResultsCard6 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[5]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-
-        // Creates rows to display the results cards
-        const ResultsRow = () => {
-            return (
-                <div class="row">
-                    <ResultsCard> </ResultsCard>
-                    <ResultsCard2> </ResultsCard2>
-                    <ResultsCard3> </ResultsCard3>
-                </div>
-            )
-        }
-
-        const ResultsRow2 = () => {
-            return (
-                <div class="row">
-                    <ResultsCard4> </ResultsCard4>
-                    <ResultsCard5> </ResultsCard5>
-                    <ResultsCard6> </ResultsCard6>
-                </div>
-            )
-        }
+        })
 
         return (
             <>
                 <main class="col-md-9">
                     {loading}
-                    <ResultsRow></ResultsRow>
-                    <ResultsRow2></ResultsRow2>
+                    <div class="row">
+                        {resultsList}
+                    </div>
                 </main>
             </>
         )
