@@ -1,9 +1,11 @@
 import React from 'react';
-import { render } from 'react-dom';
 import Loader from 'react-loader-spinner';
 import './Loader.css';
 
 function ShowDetail(color) {
+    // Creates loading spinner
+    // Spinner color changes based on color selected by user
+
     let colorDict = {
         "red": "#a80000",
         "orange": "#fb6400",

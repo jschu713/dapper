@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { usePromiseTracker } from "react-promise-tracker";
 import Loader from "./Loader";
 
-
-// Images are 278 x 420 per card
-
 class Results extends React.Component {
+    // Component that displays the filter results
 
     render() {
+        // Tracks color
         let loading;
         const color = this.props.topColor;
 
+        // Display loading spinner if not all URLs are received yet
         if (!this.props.isLoaded) {
             loading = <Loader
                 promiseTracker={usePromiseTracker}
@@ -20,7 +20,9 @@ class Results extends React.Component {
 
         const results = this.props.urls;
 
-        const Card = () => {
+        // Creates results display cards
+        // Images are 278 x 420 per card
+        const ResultsCard = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -31,7 +33,7 @@ class Results extends React.Component {
                 </div>
             )
         }
-        const Card2 = () => {
+        const ResultsCard2 = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -43,7 +45,7 @@ class Results extends React.Component {
             )
         }
 
-        const Card3 = () => {
+        const ResultsCard3 = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -55,7 +57,7 @@ class Results extends React.Component {
             )
         }
 
-        const Card4 = () => {
+        const ResultsCard4 = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -66,7 +68,7 @@ class Results extends React.Component {
                 </div>
             )
         }
-        const Card5 = () => {
+        const ResultsCard5 = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -78,7 +80,7 @@ class Results extends React.Component {
             )
         }
 
-        const Card6 = () => {
+        const ResultsCard6 = () => {
             return (
                 <div class="col-md-4">
                     <figure class="card card-product-grid">
@@ -90,22 +92,23 @@ class Results extends React.Component {
             )
         }
 
-        const Row = () => {
+        // Creates rows to display the results cards
+        const ResultsRow = () => {
             return (
                 <div class="row">
-                    <Card> </Card>
-                    <Card2> </Card2>
-                    <Card3> </Card3>
+                    <ResultsCard> </ResultsCard>
+                    <ResultsCard2> </ResultsCard2>
+                    <ResultsCard3> </ResultsCard3>
                 </div>
             )
         }
 
-        const Row2 = () => {
+        const ResultsRow2 = () => {
             return (
                 <div class="row">
-                    <Card4> </Card4>
-                    <Card5> </Card5>
-                    <Card6> </Card6>
+                    <ResultsCard4> </ResultsCard4>
+                    <ResultsCard5> </ResultsCard5>
+                    <ResultsCard6> </ResultsCard6>
                 </div>
             )
         }
@@ -114,8 +117,8 @@ class Results extends React.Component {
             <>
                 <main class="col-md-9">
                     {loading}
-                    <Row></Row>
-                    <Row2></Row2>
+                    <ResultsRow></ResultsRow>
+                    <ResultsRow2></ResultsRow2>
                 </main>
             </>
         )
