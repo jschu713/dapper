@@ -6,7 +6,7 @@ import { CirclePicker } from 'react-color';
 import Button from '@mui/material/Button';
 import { trackPromise } from "react-promise-tracker";
 
-
+// Color picker circles
 class Circles extends React.Component {
     constructor(props) {
         super(props);
@@ -18,6 +18,7 @@ class Circles extends React.Component {
         this.handleChangeComplete = this.handleChangeComplete.bind(this);
     }
 
+    // Stores the selected color upon selection
     handleChangeComplete = (color, event) => {
         this.setState({
             selectedColor: color.hex,
@@ -38,6 +39,7 @@ class Circles extends React.Component {
     }
 }
 
+// Filters that submit as a form to backend to retrieve images from microservices
 class FilterForm extends React.Component {
     constructor(props) {
         super(props);
@@ -66,6 +68,7 @@ class FilterForm extends React.Component {
 
         const { occasion, season, topColor } = this.state
 
+        // Submit confirmation
         alert(`
         ____Submitted! Please wait for images to load.____\n
         Occasion : ${occasion}
@@ -73,6 +76,8 @@ class FilterForm extends React.Component {
         Top Color: ${topColor}
         `)
 
+        // Sends form information to microservice/backend
+        // Tracks promise to know when all URLs are received
         trackPromise(
             fetch("http://127.0.0.1:5000/get_images", {
                 method: "POST",
@@ -90,6 +95,7 @@ class FilterForm extends React.Component {
                     imgs.push(data['img_urls'][i]['image_url'])
                 }
 
+                // Stores retrieved image urls
                 this.setState({
                     isLoaded: true,
                     urls: imgs
@@ -99,7 +105,7 @@ class FilterForm extends React.Component {
     }
 
     // Store all values of input fields in react state
-    // Single method handles all input changes of hte input field using ES6
+    // Single method handles all input changes of the input field using ES6
     handleChange(event) {
         event.stopPropagation();
         this.setState({
@@ -149,6 +155,7 @@ class FilterForm extends React.Component {
         const isSubmitted = this.state.isSubmitted;
         let grid;
 
+        // Displays results upon form submit
         if (isSubmitted) {
             grid = < Results
                 topColor={this.state.topColor}
@@ -324,7 +331,7 @@ class FilterForm extends React.Component {
 
 }
 
-
+// Displays filters component
 function Filters() {
 
     return (
@@ -348,7 +355,5 @@ function Filters() {
         </>
     )
 }
-
-
 
 export default React.memo(Filters)
