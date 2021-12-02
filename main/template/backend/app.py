@@ -9,6 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 def img_to_resize(urls):
+    '''Takes image URLs and sends them to image resizing microservice'''
     all_messages = []
 
     message = {
@@ -17,56 +18,83 @@ def img_to_resize(urls):
         "width": 278,
         "scale_option": "fill"
     }
-
-    resize_client = ResizeClient()
+    
+    resize_client = ResizeClient('resize-jeff')
 
     for img in urls:
         message["image_url"] = img
         result = resize_images(resize_client, message)
-        all_messages.append(result)
+        
+        # error handling
+        # only include if resized img url is returned
+        if result["success"] is True:
+            all_messages.append(result)
+
+        # breaks loop early if we get # of imgs we need
+        if len(all_messages) == 6:
+            break
+
+    resize_client.channel.close()
+    resize_client.connection.close()
+
     return all_messages
     
 def resize_images(client, msg):
-    
+    '''Calls image resizing microservice'''
     print(" [x] Sending message to consumer")
     response = client.call(json.dumps(msg))
     print("Printing response sent to publisher from consumer:")
+
     return json.loads(response)
+
+def get_keywords(form_data):
+    '''Gets keywords to search for images microservice'''
+    top_type = {"spring": " shirt", 
+    "summer": " t-shirt", 
+    "fall": " shirt", 
+    "winter": " coat", 
+    "formal": " suit", 
+    "business casual": 
+    " dress shirt"}
+
+    occassion = form_data['occasion']
+    season = form_data['season']
+    top_color = form_data['topColor']
+
+    # handles occassion specific clothing options
+    if occassion != "formal" and occassion != "business casual":
+        tops = "'" + top_color + top_type[season] + "'"
+    else:
+        tops = "'" + top_color + top_type[occassion] + "'"
+
+    return {"occassion": occassion, "season": season, "top": tops}
 
 @app.route('/get_images', methods=['POST'])
 def get_images():
+    '''Calls google image microservice to retreive img urls'''
     data = request.json
 
-    top_type = " shirt"
-    btm_type = " pants"
-    occassion = data['occasion']
-    season = data['season']
-    top_color = data['topColor']
-    btm_color = data['btmColor']
-
-    if occassion == "formal":
-        top_type = " suit"
-    if occassion == "casual" and season != "winter" and season != "fall":
-        btm_type = " shorts"
+    keys_bank = get_keywords(data)
     
     keywords = {
-        "image_parameters": ["men", "mens", "male", "style", occassion, season, top_color + top_type, btm_color + btm_type], "num_images": "6"
+        "image_parameters": ["men", "mens", "male", "style", keys_bank["occassion"], keys_bank["season"], keys_bank["top"]], "num_images": "7"
     }
 
-    google_image_client = ImageRequests()
+    google_image_client = ImageRequests('google_images_Jeff')
 
+    # make calls to image retrieval service
     response = google_image_client.call(json.dumps(keywords))
     print("Printing response sent to client from server:")
     images_json = json.loads(response)
 
-
+    # makes call to img resizing microservice
     img_msgs = img_to_resize(images_json['images'])
     print([url for url in img_msgs])
+
+    google_image_client.channel.close()
+    google_image_client.connection.close() 
     
     return jsonify(img_urls=[url for url in img_msgs])
 
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=True, threaded=True)

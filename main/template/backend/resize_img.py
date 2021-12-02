@@ -4,13 +4,12 @@
 import pika, os, ssl, json, uuid
 from dotenv import load_dotenv
 
-
 # Load environmental variables
 load_dotenv()
 
 class ResizeClient(object):
 
-    def __init__(self):
+    def __init__(self, callback):
 
         # Set up connection
         self.url = os.environ.get('CLOUDAMQP_URL')
@@ -21,7 +20,7 @@ class ResizeClient(object):
 
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue='resize-jeff', exclusive=False, durable=False)
+        result = self.channel.queue_declare(queue=callback, exclusive=False, auto_delete=True)
         self.callback_queue = result.method.queue
 
         self.channel.basic_consume(
@@ -38,50 +37,15 @@ class ResizeClient(object):
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(
             exchange='',
-            routing_key='resize-jeff',
+            routing_key='resize-requests',
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=self.corr_id,
-                headers={"x-delay":1000},
+                headers={"x-delay":200},
                 delivery_mode=2,
             ),
             body=n)
         while self.response is None:
             self.connection.process_data_events()
+
         return self.response
-
-
-# resize_client = ResizeClient()
-
-# SAMPLE PUBLISHING MESSAGE
-# message = {
-#   'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Savannah_Cat_portrait.jpg/800px-Savannah_Cat_portrait.jpg',
-#   'height': 500,
-#   'width': 500,
-#   'scale_option': 'fill'
-# }
-
-# message2 = {
-#   "image_url": "https://i.pinimg.com/originals/c4/c6/bc/c4c6bc9528e0fc7fa846eb31ebe41447.jpg",
-#   "height": 420,
-#   "width": 278,
-#   "scale_option": "fill"
-# }
-
-# test = [message, message2]
-
-# for t in test:
-#     print(" [x] Sending message to consumer")
-#     response = resize_client.call(json.dumps(t))
-#     print("Printing response sent to publisher from consumer:")
-#     print(json.loads(response))
-
-# print(" [x] Sending message to consumer")
-# response = resize_client.call(json.dumps(message))
-# print("Printing response sent to publisher from consumer:")
-# print(json.loads(response))
-
-# print(" [x] Sending message to consumer")
-# response = resize_client.call(json.dumps(message2))
-# print("Printing response sent to publisher from consumer:")
-# print(json.loads(response))

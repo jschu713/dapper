@@ -1,110 +1,47 @@
 import React, { useState } from 'react';
-
-
-// Images are 278 x 420 per card
-// {this.props.season}
-
+import { usePromiseTracker } from "react-promise-tracker";
+import Loader from "./Loader";
 
 class Results extends React.Component {
+    // Component that displays the filter results
 
     render() {
-        const results = this.props.urls;
+        // Tracks color
+        let loading;
+        const color = this.props.topColor;
 
-        const Card = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[0]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-        const Card2 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[1]} />
-                        </div>
-                    </figure>
-                </div>
-            )
+        // Display loading spinner if not all URLs are received yet
+        if (!this.props.isLoaded) {
+            loading = <Loader
+                promiseTracker={usePromiseTracker}
+                color={color}
+            />
         }
 
-        const Card3 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[2]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
+        // Creates results display cards
+        // Images are 278 x 420 per card
+        let results = this.props.urls;
+        let resultsList = []
 
-        const Card4 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[3]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-        const Card5 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[4]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
+        // loops through urls to create each card
+        Array.from(results).forEach((item, index) => {
+            resultsList.push(<div class="col-md-4">
+                <figure class="card card-product-grid">
+                    <div class="img-wrap">
+                        <img key={index} src={item} />
+                    </div>
+                </figure>
+            </div>)
 
-        const Card6 = () => {
-            return (
-                <div class="col-md-4">
-                    <figure class="card card-product-grid">
-                        <div class="img-wrap">
-                            <img src={results[5]} />
-                        </div>
-                    </figure>
-                </div>
-            )
-        }
-
-        const Row = () => {
-            return (
-                <div class="row">
-                    <Card> </Card>
-                    <Card2> </Card2>
-                    <Card3> </Card3>
-                </div>
-            )
-        }
-
-        const Row2 = () => {
-            return (
-                <div class="row">
-                    <Card4> </Card4>
-                    <Card5> </Card5>
-                    <Card6> </Card6>
-                </div>
-            )
-        }
+        })
 
         return (
             <>
                 <main class="col-md-9">
-                    <Row></Row>
-                    <Row2></Row2>
+                    {loading}
+                    <div class="row">
+                        {resultsList}
+                    </div>
                 </main>
             </>
         )

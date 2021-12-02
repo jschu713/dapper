@@ -22,8 +22,10 @@ function Navbar() {
                     <ul className={click ? 'nav-tip active' : 'nav-tip'} >
                         <li className='nav-item'>
                             <Tooltip
-                                title={<h2> Find your next great look here at dapper. Select the occassion, season, top, and bottom clothing color on the left filter pane. Then hit submit
-                                    to get some fashion inspiration. The reset button is also there in case you change your mind and want new choices.
+                                title={<h2> Find your next great look here at dapper.
+                                    Select the occassion, season, and clothing color on the left filter pane.
+                                    Then hit submit to get some fashion inspiration.
+                                    The reset button is also there in case you change your mind and want new choices.
                                 </h2>}
                                 placement='bottom' className='tooltip'>
                                 <Link to='/' className='nav-links'>
@@ -32,7 +34,6 @@ function Navbar() {
                             </Tooltip>
                         </li>
                     </ul>
-                    {/* {button && <Button buttonStyle='btn-outline'><i className={click ? 'fas fa-times' : 'far fa-question-circle'} /></Button>} */}
                 </div>
             </nav>
         </>
