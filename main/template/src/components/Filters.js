@@ -164,6 +164,82 @@ class FilterForm extends React.Component {
 
         };
 
+        function capFirstLtr(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        // Creates occassion radio buttons
+        let filterOcc = ["formal", "business casual", "casual"]
+        let occList = []
+
+        Array.from(filterOcc).forEach((item, index) => {
+            let caps = capFirstLtr(item)
+
+            occList.push(<label class="custom-control custom-checkbox">
+                <input key={index} type="radio" name="occasion" class="custom-control-input"
+                    value={item}
+                    checked={this.state.occasion === item}
+                    onChange={this.handleChange} />
+                <div class="custom-control-label">{caps}</div>
+            </label>)
+
+        })
+
+        // Creates season radio buttons
+        let filterSeasons = ["spring", "summer", "fall", "winter"]
+        let seasonIcons = ["fas fa-seedling", "fas fa-sun", "fab fa-canadian-maple-leaf", "far fa-snowflake"]
+        let seasonsList = []
+
+        Array.from(filterSeasons).forEach((item, index) => {
+            let caps = capFirstLtr(item)
+
+            seasonsList.push(<label class="checkbox-btn">
+                <Tooltip title={<h6>{caps}</h6>} placement="bottom">
+                    <div>
+                        <input key={index} type="radio" name="season"
+                            value={item}
+                            defaultChecked={this.state.season === { item }}
+                            onChange={this.handleChange} />
+
+                        <span class="btn btn-light">
+                            <i class={seasonIcons[index]}></i>
+                        </span>
+                    </div>
+                </Tooltip>
+
+            </label>)
+
+        })
+
+        // Creates entire filter list
+        let circlePicks = <Circles name='topColor' parentCallback={this.handleTopColorChange} />
+
+        let filterDisplay = ["occassion", "season", "top color"]
+        let collapse = ["#collapse_2", "#collapse_4", "#collapse_3"]
+        let selection = [occList, seasonsList, circlePicks]
+        let filterList = []
+
+        Array.from(filterDisplay).forEach((item, index) => {
+            let caps = capFirstLtr(item)
+
+            filterList.push(<article class="filter-group">
+                <header class="card-header">
+                    <a href="#" data-toggle="collapse" data-target={collapse[index]} aria-expanded="true" class="">
+                        <i class="icon-control fa fa-chevron-down"></i>
+                        <h6 class="title">{caps} </h6>
+                    </a>
+                </header>
+                <div class="filter-content collapse show" id={collapse[index]}>
+                    <div class="card-body">
+                        <div className="radio">
+                            {selection[index]}
+                        </div>
+                    </div>
+                </div>
+            </article>)
+
+        })
+
         return (
 
             <form onSubmit={this.handleSubmit}>
@@ -173,152 +249,21 @@ class FilterForm extends React.Component {
                         <div class="row">
                             <aside class="col-md-3">
 
-                                {/* Occasion */}
                                 <div class="card">
-                                    <article class="filter-group">
-                                        <header class="card-header">
-                                            <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
-                                                <i class="icon-control fa fa-chevron-down"></i>
-                                                <h6 class="title">Occasion </h6>
-                                            </a>
-                                        </header>
-                                        <div class="filter-content collapse show" id="collapse_2">
-                                            <div class="card-body">
-                                                <div className="radio">
-                                                    <label class="custom-control custom-checkbox">
-                                                        <input type="radio" name="occasion" class="custom-control-input"
-                                                            value="formal"
-                                                            checked={this.state.occasion === 'formal'}
-                                                            onChange={this.handleChange} />
-                                                        <div class="custom-control-label">Formal
-                                                        </div>
-                                                    </label>
-                                                    <label class="custom-control custom-checkbox">
-                                                        <input type="radio" name="occasion" class="custom-control-input"
-                                                            value="business casual"
-                                                            checked={this.state.occasion === 'business casual'}
-                                                            onChange={this.handleChange} />
-                                                        <div class="custom-control-label">Business Casual
-                                                        </div>
-                                                    </label>
-                                                    <label class="custom-control custom-checkbox">
-                                                        <input type="radio" name="occasion" class="custom-control-input"
-                                                            value="casual"
-                                                            checked={this.state.occasion === 'casual'}
-                                                            onChange={this.handleChange} />
-                                                        <div class="custom-control-label">Casual
-                                                        </div>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Season */}
-                                        <article class="filter-group">
-                                            <header class="card-header">
-                                                <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
-                                                    <i class="icon-control fa fa-chevron-down"></i>
-                                                    <h6 class="title">Season </h6>
-                                                </a>
-                                            </header>
-                                            <div class="filter-content collapse show" id="collapse_4">
-                                                <div class="card-body">
-
-                                                    <label class="checkbox-btn">
-                                                        <Tooltip title={<h6>Spring</h6>} placement="bottom">
-                                                            <div>
-                                                                <input type="radio" name="season"
-                                                                    value="spring"
-                                                                    checked={this.state.season === 'spring'}
-                                                                    onChange={this.handleChange} />
-
-                                                                <span class="btn btn-light">
-                                                                    <i class="fas fa-seedling"></i>
-                                                                </span>
-                                                            </div>
-                                                        </Tooltip>
-
-                                                    </label>
-
-                                                    <label class="checkbox-btn">
-                                                        <Tooltip title={<h6>Summer</h6>} placement="bottom">
-                                                            <div>
-                                                                <input type="radio" name="season"
-                                                                    value="summer"
-                                                                    checked={this.state.season === 'summer'}
-                                                                    onChange={this.handleChange} />
-                                                                <span class="btn btn-light">
-                                                                    <i class="fas fa-sun"></i>
-                                                                </span>
-                                                            </div>
-                                                        </Tooltip>
-                                                    </label>
-
-                                                    <label class="checkbox-btn">
-                                                        <Tooltip title={<h6>Fall</h6>} placement="bottom">
-                                                            <div>
-                                                                <input type="radio" name="season"
-                                                                    value="fall"
-                                                                    checked={this.state.season === 'fall'}
-                                                                    onChange={this.handleChange} />
-                                                                <span class="btn btn-light">
-                                                                    <i class="fab fa-canadian-maple-leaf"></i>
-                                                                </span>
-                                                            </div>
-                                                        </Tooltip>
-                                                    </label>
-
-                                                    <label class="checkbox-btn">
-                                                        <Tooltip title={<h6>Winter</h6>} placement="bottom">
-                                                            <div>
-                                                                <input type="radio" name="season"
-                                                                    value="winter"
-                                                                    checked={this.state.season === 'winter'}
-                                                                    onChange={this.handleChange} />
-                                                                <span class="btn btn-light">
-                                                                    <i class="far fa-snowflake"></i>
-                                                                </span>
-                                                            </div>
-                                                        </Tooltip>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </article>
-
-                                    </article>
-
-                                    {/* Top Color */}
-                                    <article class="filter-group">
-                                        <header class="card-header">
-                                            <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
-                                                <i class="icon-control fa fa-chevron-down"></i>
-                                                <h6 class="title">Top Color</h6>
-                                            </a>
-                                        </header>
-                                        <div class="filter-content collapse show" id="collapse_3">
-                                            <div class="card-body">
-                                                <Circles
-                                                    name='topColor'
-                                                    parentCallback={this.handleTopColorChange} />
-                                            </div>
-                                        </div>
-                                    </article>
+                                    {filterList}
 
                                     {/* Submit and Reset Buttons */}
                                     <article class="filter-group">
-
                                         <div class="filter-content collapse show" id="collapse_5">
                                             <div id="submitter" class="card-body">
-
                                                 <Button id='sb' variant="contained" type="submit"> Submit</Button> <br />
                                                 <Button id='resetbtn' variant="contained" onClick={this.resetForm}> Reset</Button>
-
-
                                             </div>
                                         </div>
                                     </article>
                                 </div>
                             </aside>
+                            {/* Displays results */}
                             {grid}
                         </div>
                     </div>
