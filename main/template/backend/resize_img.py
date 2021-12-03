@@ -20,7 +20,7 @@ class ResizeClient(object):
 
         self.channel = self.connection.channel()
 
-        result = self.channel.queue_declare(queue=callback, exclusive=False, auto_delete=True)
+        result = self.channel.queue_declare(queue=callback, exclusive=False)
         self.callback_queue = result.method.queue
 
         self.channel.basic_consume(
@@ -37,7 +37,7 @@ class ResizeClient(object):
         self.corr_id = str(uuid.uuid4())
         self.channel.basic_publish(
             exchange='',
-            routing_key='resize-requests',
+            routing_key='resize-jeff',
             properties=pika.BasicProperties(
                 reply_to=self.callback_queue,
                 correlation_id=self.corr_id,

@@ -50,7 +50,6 @@ class FilterForm extends React.Component {
             isSubmitted: false,
             resultsDisplayed: false,
             isLoaded: false,
-            checked: { "spring": false, "summer": false, "fall": false, "winter": false },
             urls: ''
         };
 
@@ -105,25 +104,10 @@ class FilterForm extends React.Component {
 
     }
 
-    // Handles check/unchecked state of season radio buttons
-    handleCheckToggle(event) {
-        if (event.target.name === 'season') {
-            let copyChecked = { ...this.state.checked }
-            let value = event.target.value
-            copyChecked[value] = !copyChecked[value]
-
-            this.setState({
-                checked: copyChecked
-            })
-        }
-    }
-
     // Store all values of input fields in react state
     // Single method handles all input changes of the input field using ES6
     handleChange(event) {
         event.stopPropagation();
-
-        this.handleCheckToggle(event)
 
         this.setState({
             [event.target.name]: event.target.value,
@@ -163,7 +147,6 @@ class FilterForm extends React.Component {
             isSubmitted: false,
             resultsDisplayed: false,
             isLoaded: false,
-            checked: { "spring": false, "summer": false, "fall": false, "winter": false },
             urls: ''
         })
 
@@ -187,7 +170,7 @@ class FilterForm extends React.Component {
         }
 
         // Creates occassion radio buttons
-        let filterOcc = ["formal", "business casual", "casual"]
+        let filterOcc = ["formal", "semi-formal", "casual"]
         let occList = []
 
         Array.from(filterOcc).forEach((item, index) => {
@@ -216,7 +199,7 @@ class FilterForm extends React.Component {
                     <div>
                         <input key={index} type="radio" name="season"
                             value={item}
-                            checked={this.state.checked[item]}
+                            checked={this.state.season === item}
                             onChange={this.handleChange} />
 
                         <span class="btn btn-light">
