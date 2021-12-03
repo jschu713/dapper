@@ -23,17 +23,19 @@ class Results extends React.Component {
         let results = this.props.urls;
         let resultsList = []
 
-        // loops through urls to create each card
-        Array.from(results).forEach((item, index) => {
-            resultsList.push(<div class="col-md-4">
-                <figure class="card card-product-grid">
-                    <div class="img-wrap">
-                        <img key={index} src={item} />
-                    </div>
-                </figure>
-            </div>)
+        if (this.props.isLoaded) {
+            // loops through urls to create each card
+            Array.from(results).forEach((item, index) => {
+                resultsList.push(<div class="col-md-4">
+                    <figure class="card card-product-grid">
+                        <div class="img-wrap">
+                            <img key={index} src={item} />
+                        </div>
+                    </figure>
+                </div>)
 
-        })
+            })
+        }
 
         return (
             <>

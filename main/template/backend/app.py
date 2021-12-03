@@ -54,15 +54,14 @@ def get_keywords(form_data):
     "fall": " shirt", 
     "winter": " coat", 
     "formal": " suit", 
-    "business casual": 
-    " dress shirt"}
+    "semi-formal": " shirt"}
 
     occassion = form_data['occasion']
     season = form_data['season']
     top_color = form_data['topColor']
 
     # handles occassion specific clothing options
-    if occassion != "formal" and occassion != "business casual":
+    if occassion != "formal" and occassion != "semi-formal":
         tops = "'" + top_color + top_type[season] + "'"
     else:
         tops = "'" + top_color + top_type[occassion] + "'"
@@ -77,7 +76,7 @@ def get_images():
     keys_bank = get_keywords(data)
     
     keywords = {
-        "image_parameters": ["men", "mens", "male", "style", keys_bank["occassion"], keys_bank["season"], keys_bank["top"]], "num_images": "7"
+        "image_parameters": ["mens", keys_bank["occassion"], keys_bank["season"], keys_bank["top"], "style"], "num_images": "7"
     }
 
     google_image_client = ImageRequests('google_images_Jeff')

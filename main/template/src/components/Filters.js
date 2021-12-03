@@ -108,6 +108,7 @@ class FilterForm extends React.Component {
     // Single method handles all input changes of the input field using ES6
     handleChange(event) {
         event.stopPropagation();
+
         this.setState({
             [event.target.name]: event.target.value,
         });
@@ -169,7 +170,7 @@ class FilterForm extends React.Component {
         }
 
         // Creates occassion radio buttons
-        let filterOcc = ["formal", "business casual", "casual"]
+        let filterOcc = ["formal", "semi-formal", "casual"]
         let occList = []
 
         Array.from(filterOcc).forEach((item, index) => {
@@ -198,7 +199,7 @@ class FilterForm extends React.Component {
                     <div>
                         <input key={index} type="radio" name="season"
                             value={item}
-                            defaultChecked={this.state.season === { item }}
+                            checked={this.state.season === item}
                             onChange={this.handleChange} />
 
                         <span class="btn btn-light">
